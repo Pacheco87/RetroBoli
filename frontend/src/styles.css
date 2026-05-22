@@ -578,12 +578,66 @@ button {
 
 .admin-form {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .admin-form h2,
 .panel-heading h2 {
   margin: 0;
+}
+
+.admin-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 8px;
+  padding: 18px;
+  background: linear-gradient(135deg, #0f8dea, #135b94);
+  color: #fff;
+}
+
+.admin-form-header .eyebrow {
+  margin-bottom: 6px;
+}
+
+.featured-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px !important;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff !important;
+}
+
+.featured-toggle input {
+  width: auto;
+}
+
+.admin-form-section {
+  display: grid;
+  gap: 14px;
+  border: 1px solid #b7d8ef;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f6fbff;
+}
+
+.form-section-heading {
+  display: grid;
+  gap: 4px;
+}
+
+.form-section-heading strong {
+  color: #153450;
+  font-size: 1.05rem;
+}
+
+.form-section-heading span {
+  color: #60758a;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .form-grid {
@@ -611,16 +665,6 @@ button {
 .admin-form textarea {
   min-height: 120px;
   resize: vertical;
-}
-
-.checkbox-label {
-  display: flex !important;
-  align-items: center;
-  grid-template-columns: auto 1fr;
-}
-
-.checkbox-label input {
-  width: auto;
 }
 
 .admin-list {
@@ -710,6 +754,27 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.file-dropzone {
+  border: 1px dashed #74b5e7;
+  border-radius: 8px;
+  padding: 18px;
+  background: #e6f4ff;
+}
+
+.file-dropzone input {
+  border: 0;
+  padding: 8px 0 0;
+  background: transparent;
+}
+
+.media-section .admin-carousel {
+  margin-top: 2px;
+}
+
+.form-submit-button {
+  justify-self: end;
 }
 
 .item-actions button,

@@ -110,6 +110,7 @@ Validacion:
 - Mejora imagenes: el formulario admin redimensiona imagenes grandes en cliente antes de subirlas para mantener nitidez y peso razonable.
 - Mejora catalogo: cards de productos y destacados muestran flechas laterales cuando hay varias imagenes.
 - Mejora filtros: la miga de categoria/plataforma permite clicar la categoria para ver todos sus productos.
+- Mejora admin: formulario crear/editar se organiza en secciones visuales y condiciones/estados se muestran con primera letra mayuscula.
 
 ## Fase 3: Detalle De Producto
 

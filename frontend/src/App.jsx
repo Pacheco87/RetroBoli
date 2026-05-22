@@ -839,96 +839,138 @@ function ProductForm({ product, onSaved }) {
 
   return (
     <form className="admin-form" onSubmit={handleSubmit}>
-      <h2>{product ? 'Editar producto' : 'Crear producto'}</h2>
-      <div className="form-grid">
-        <label>
-          Titulo
-          <input value={form.title} onChange={(event) => updateField('title', event.target.value)} required />
-        </label>
-        <label>
-          Precio
+      <div className="admin-form-header">
+        <div>
+          <p className="eyebrow">{product ? 'Edicion' : 'Nuevo producto'}</p>
+          <h2>{product ? 'Editar producto' : 'Crear producto'}</h2>
+        </div>
+        <label className="featured-toggle">
           <input
-            type="number"
-            min="0"
-            step="0.01"
-            value={form.price}
-            onChange={(event) => updateField('price', event.target.value)}
-            required
+            type="checkbox"
+            checked={form.featured}
+            onChange={(event) => updateField('featured', event.target.checked)}
           />
-        </label>
-        <label>
-          Categoria
-          <input value={form.category} onChange={(event) => updateField('category', event.target.value)} required />
-        </label>
-        <label>
-          Marca
-          <input value={form.brand} onChange={(event) => updateField('brand', event.target.value)} required />
-        </label>
-        <label>
-          Plataforma
-          <input value={form.platform} onChange={(event) => updateField('platform', event.target.value)} required />
-        </label>
-        <label>
-          Condicion
-          <select value={form.condition} onChange={(event) => updateField('condition', event.target.value)}>
-            {conditionLabels.map((condition) => (
-              <option key={condition}>{condition}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Estado
-          <select value={form.status} onChange={(event) => updateField('status', event.target.value)}>
-            {statusLabels.map((status) => (
-              <option key={status}>{status}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Wallapop
-          <input
-            type="url"
-            value={form.wallapopUrl}
-            onChange={(event) => updateField('wallapopUrl', event.target.value)}
-            required
-          />
+          Destacado
         </label>
       </div>
-      <label>
-        Descripcion
-        <textarea value={form.description} onChange={(event) => updateField('description', event.target.value)} required />
-      </label>
-      <label className="checkbox-label">
-        <input
-          type="checkbox"
-          checked={form.featured}
-          onChange={(event) => updateField('featured', event.target.checked)}
-        />
-        Destacado
-      </label>
-      <label>
-        Fotos
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={(event) => updateField('files', Array.from(event.target.files))}
-        />
-      </label>
-      {previews.length > 0 && (
-        <AdminImageCarousel images={previews} imageIndex={previewIndex} setImageIndex={setPreviewIndex} title={form.title} />
-      )}
-      {form.existingImages.length > 0 && (
-        <div className="image-actions">
-          {form.existingImages.map((image, index) => (
-            <button type="button" key={image.url} onClick={() => removeExistingImage(index)}>
-              Quitar imagen {index + 1}
-            </button>
-          ))}
+
+      <section className="admin-form-section">
+        <div className="form-section-heading">
+          <strong>Informacion principal</strong>
+          <span>Titulo, precio y descripcion visible del producto.</span>
         </div>
-      )}
+        <div className="form-grid">
+          <label>
+            Titulo
+            <input value={form.title} onChange={(event) => updateField('title', event.target.value)} required />
+          </label>
+          <label>
+            Precio
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={form.price}
+              onChange={(event) => updateField('price', event.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <label>
+          Descripcion
+          <textarea value={form.description} onChange={(event) => updateField('description', event.target.value)} required />
+        </label>
+      </section>
+
+      <section className="admin-form-section">
+        <div className="form-section-heading">
+          <strong>Clasificacion</strong>
+          <span>Organiza el producto para menu, filtros y busqueda.</span>
+        </div>
+        <div className="form-grid">
+          <label>
+            Categoria
+            <input value={form.category} onChange={(event) => updateField('category', event.target.value)} required />
+          </label>
+          <label>
+            Marca
+            <input value={form.brand} onChange={(event) => updateField('brand', event.target.value)} required />
+          </label>
+          <label>
+            Plataforma
+            <input value={form.platform} onChange={(event) => updateField('platform', event.target.value)} required />
+          </label>
+          <label>
+            Condicion
+            <select value={form.condition} onChange={(event) => updateField('condition', event.target.value)}>
+              {conditionLabels.map((condition) => (
+                <option key={condition} value={condition}>
+                  {formatLabel(condition)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section className="admin-form-section">
+        <div className="form-section-heading">
+          <strong>Venta</strong>
+          <span>Estado actual y enlace externo de Wallapop.</span>
+        </div>
+        <div className="form-grid">
+          <label>
+            Estado
+            <select value={form.status} onChange={(event) => updateField('status', event.target.value)}>
+              {statusLabels.map((status) => (
+                <option key={status} value={status}>
+                  {formatLabel(status)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Wallapop
+            <input
+              type="url"
+              value={form.wallapopUrl}
+              onChange={(event) => updateField('wallapopUrl', event.target.value)}
+              required
+            />
+          </label>
+        </div>
+      </section>
+
+      <section className="admin-form-section media-section">
+        <div className="form-section-heading">
+          <strong>Fotos</strong>
+          <span>Se optimizan antes de subirlas y se previsualizan en carrusel.</span>
+        </div>
+        <label className="file-dropzone">
+          Fotos
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(event) => updateField('files', Array.from(event.target.files))}
+          />
+        </label>
+        {previews.length > 0 && (
+          <AdminImageCarousel images={previews} imageIndex={previewIndex} setImageIndex={setPreviewIndex} title={form.title} />
+        )}
+        {form.existingImages.length > 0 && (
+          <div className="image-actions">
+            {form.existingImages.map((image, index) => (
+              <button type="button" key={image.url} onClick={() => removeExistingImage(index)}>
+                Quitar imagen {index + 1}
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+
       {error && <p className="form-error">{error}</p>}
-      <button className="primary-button" type="submit">
+      <button className="primary-button form-submit-button" type="submit">
         Guardar producto
       </button>
     </form>
@@ -936,7 +978,7 @@ function ProductForm({ product, onSaved }) {
 }
 
 function ConditionBadge({ condition, color }) {
-  return <span className={`condition-badge condition-${color || 'lime'}`}>{condition}</span>;
+  return <span className={`condition-badge condition-${color || 'lime'}`}>{formatLabel(condition)}</span>;
 }
 
 function StateMessage({ title, text }) {
@@ -1063,4 +1105,12 @@ function formatPrice(price) {
     style: 'currency',
     currency: 'EUR',
   }).format(price);
+}
+
+function formatLabel(value) {
+  if (!value) {
+    return '';
+  }
+
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
