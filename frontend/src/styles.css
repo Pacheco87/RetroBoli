@@ -55,18 +55,16 @@ button {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   color: inherit;
-  font-size: 1.25rem;
-  font-weight: 900;
   text-decoration: none;
 }
 
 .brand img {
-  width: 48px;
-  height: 48px;
+  width: 68px;
+  height: 68px;
   border-radius: 6px;
   object-fit: cover;
+  box-shadow: 0 8px 18px rgba(13, 40, 73, 0.22);
 }
 
 .main-nav {
@@ -110,15 +108,17 @@ button {
   top: 100%;
   right: 0;
   display: none;
-  width: min(360px, 88vw);
+  width: min(420px, 90vw);
   max-height: 70vh;
   overflow: auto;
   border: 1px solid #93c8ef;
-  border-radius: 8px;
-  padding: 14px;
-  background: #eef8ff;
+  border-radius: 10px;
+  padding: 12px;
+  background:
+    linear-gradient(180deg, #f1f9ff, #dceffc),
+    #eef8ff;
   color: #1b2636;
-  box-shadow: 0 18px 42px rgba(17, 24, 39, 0.18);
+  box-shadow: 0 20px 46px rgba(13, 40, 73, 0.24);
 }
 
 .nav-dropdown:hover .dropdown-panel,
@@ -133,14 +133,46 @@ button {
 }
 
 .menu-group + .menu-group {
-  margin-top: 14px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(83, 151, 204, 0.32);
+  padding-top: 10px;
+}
+
+.menu-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #123858;
+}
+
+.menu-group-heading svg {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  padding: 7px;
+  background: #0f8dea;
+  color: #fff;
+}
+
+.menu-platform-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .dropdown-panel button {
-  border-color: #b2d8f4;
-  background: #dceffc;
+  border-color: transparent;
+  background: #c8e4f8;
   color: #1b2636;
-  text-align: left;
+  text-align: center;
+  transition:
+    background 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.dropdown-panel button:hover {
+  background: #ffde47;
+  box-shadow: 0 8px 16px rgba(13, 40, 73, 0.14);
+  transform: translateY(-1px);
 }
 
 .hero-section {

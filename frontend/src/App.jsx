@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Cable, Gamepad2, Joystick, PackageSearch, ShoppingBag } from 'lucide-react';
 
 import {
   apiGet,
@@ -183,7 +184,6 @@ function SiteHeader({ activeView, menu, navigate }) {
     <header className="site-header">
       <button className="brand reset-button" type="button" onClick={() => navigate({ view: 'home' })}>
         <img src="/logo-retroboli.jpg" alt="RetroBoli" />
-        <span>RetroBoli</span>
       </button>
       <nav className="main-nav" aria-label="Navegacion principal">
         <button
@@ -207,7 +207,10 @@ function SiteHeader({ activeView, menu, navigate }) {
             <div className="dropdown-panel" role="menu">
               {menu.map((category) => (
                 <div className="menu-group" key={category.label}>
-                  <strong>{category.label}</strong>
+                  <div className="menu-group-heading">
+                    <CategoryIcon category={category.label} />
+                    <strong>{category.label}</strong>
+                  </div>
                   <div className="menu-platform-list">
                     {getCategoryPlatforms(category).map((platform) => (
                       <button
@@ -810,6 +813,33 @@ function getCategoryPlatforms(category) {
   });
 
   return Array.from(platforms).sort((first, second) => first.localeCompare(second, 'es'));
+}
+
+function CategoryIcon({ category }) {
+  const normalizedCategory = category.toLowerCase();
+  const iconProps = {
+    'aria-hidden': true,
+    size: 18,
+    strokeWidth: 2.3,
+  };
+
+  if (normalizedCategory.includes('consola')) {
+    return <Joystick {...iconProps} />;
+  }
+
+  if (normalizedCategory.includes('juego')) {
+    return <Gamepad2 {...iconProps} />;
+  }
+
+  if (normalizedCategory.includes('merch')) {
+    return <ShoppingBag {...iconProps} />;
+  }
+
+  if (normalizedCategory.includes('accesorio')) {
+    return <Cable {...iconProps} />;
+  }
+
+  return <PackageSearch {...iconProps} />;
 }
 
 function formatPrice(price) {

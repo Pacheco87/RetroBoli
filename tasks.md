@@ -105,6 +105,7 @@ Validacion:
 - `GET /api/products/featured`: endpoint publico de destacados usado por la seccion de Inicio.
 - `GET /api/products/menu`: ajustado a categoria y plataforma, sin productos finales, para filtrar el catalogo desde el menu.
 - Ajuste visual: productos/destacados pasan a fondos azules suaves y el desplegable mantiene hover continuo entre boton y panel.
+- Ajuste visual: header publico deja solo el logo ampliado y el desplegable incorpora iconos por categoria con estilo mas moderno.
 
 ## Fase 3: Detalle De Producto
 
