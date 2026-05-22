@@ -101,20 +101,22 @@ button {
 
 .nav-dropdown {
   position: relative;
+  padding-bottom: 10px;
+  margin-bottom: -10px;
 }
 
 .dropdown-panel {
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   right: 0;
   display: none;
   width: min(360px, 88vw);
   max-height: 70vh;
   overflow: auto;
-  border: 1px solid #d9e2ee;
+  border: 1px solid #93c8ef;
   border-radius: 8px;
   padding: 14px;
-  background: #fff;
+  background: #eef8ff;
   color: #1b2636;
   box-shadow: 0 18px 42px rgba(17, 24, 39, 0.18);
 }
@@ -135,7 +137,8 @@ button {
 }
 
 .dropdown-panel button {
-  border-color: #d9e2ee;
+  border-color: #b2d8f4;
+  background: #dceffc;
   color: #1b2636;
   text-align: left;
 }
@@ -197,11 +200,15 @@ button {
 
 .products-section,
 .detail-section {
-  background: #eaf3fb;
+  background:
+    linear-gradient(180deg, rgba(198, 225, 245, 0.8), rgba(224, 240, 251, 0.96)),
+    #d8ecfb;
 }
 
 .featured-section {
-  background: #dceefc;
+  background:
+    linear-gradient(180deg, #bcdcf4, #d4eafb),
+    #c9e4f8;
 }
 
 .featured-grid {
@@ -271,7 +278,7 @@ button {
   border: 1px solid #d8dee8;
   border-radius: 8px;
   padding: 0;
-  background: #f8fbff;
+  background: #eef8ff;
   color: inherit;
   text-align: left;
 }
@@ -356,9 +363,9 @@ button {
 .carousel,
 .admin-carousel {
   overflow: hidden;
-  border: 1px solid #d8dee8;
+  border: 1px solid #adcfe8;
   border-radius: 8px;
-  background: #fff;
+  background: #eef8ff;
 }
 
 .carousel img,
@@ -409,7 +416,7 @@ button {
   border: 1px dashed #9cc8e7;
   border-radius: 8px;
   padding: 24px;
-  background: #f8fbff;
+  background: #eef8ff;
 }
 
 .state-message h2,
@@ -444,10 +451,10 @@ button {
 
 .admin-panel,
 .admin-form {
-  border: 1px solid #d8dee8;
+  border: 1px solid #adcfe8;
   border-radius: 8px;
   padding: 20px;
-  background: #f8fbff;
+  background: #eef8ff;
 }
 
 .compact-form {
@@ -530,8 +537,8 @@ button {
 .item-actions button,
 .image-actions button,
 .secondary-button {
-  border-color: #cbd5e1;
-  background: #fff;
+  border-color: #9cc8e7;
+  background: #e0f1fd;
   color: #1f2937;
 }
 
