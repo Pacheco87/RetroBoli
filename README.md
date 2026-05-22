@@ -52,6 +52,8 @@ Levantar frontend y backend en desarrollo:
 npm run dev
 ```
 
+El backend lee el archivo `.env` desde la raiz del repositorio, aunque se ejecute desde el workspace `backend`.
+
 Levantar solo el frontend:
 
 ```bash

@@ -32,6 +32,7 @@ Validacion:
 - `npm.cmd run build`: build del frontend completado correctamente.
 - `node -e "import('./backend/src/app.js').then(...)"`: la app Express se instancia correctamente.
 - `docker-compose.yml`: define MongoDB local con volumen persistente y healthcheck.
+- El backend carga `.env` desde la raiz del repositorio aunque se ejecute desde el workspace `backend`.
 
 Nota:
 
