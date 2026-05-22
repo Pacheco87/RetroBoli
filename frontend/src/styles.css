@@ -42,9 +42,9 @@ button {
   position: sticky;
   z-index: 10;
   top: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
   padding: 14px clamp(18px, 4vw, 56px);
   background: #0f8dea;
@@ -72,7 +72,9 @@ button {
 .main-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  grid-column: 2;
 }
 
 .main-nav button,
@@ -91,6 +93,10 @@ button {
 .main-nav button:hover,
 .dropdown-panel button:hover {
   background: rgba(255, 255, 255, 0.18);
+}
+
+.main-nav .active-nav-item {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .nav-dropdown {
@@ -175,6 +181,17 @@ button {
   margin: 22px 0 0;
   font-size: 1.12rem;
   line-height: 1.65;
+}
+
+.hero-action {
+  width: fit-content;
+  border: 0;
+  border-radius: 6px;
+  margin-top: 28px;
+  padding: 13px 18px;
+  background: #ff6e18;
+  color: #111827;
+  font-weight: 900;
 }
 
 .products-section,
@@ -496,6 +513,7 @@ button {
   .admin-header,
   .panel-heading {
     align-items: flex-start;
+    display: flex;
     flex-direction: column;
   }
 

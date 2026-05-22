@@ -127,30 +127,32 @@ function PublicApp({ navigate, route }) {
 
   return (
     <main className="app-shell">
-      <SiteHeader menu={menu} navigate={navigate} />
+      <SiteHeader activeView={route.view} menu={menu} navigate={navigate} />
       {route.view === 'product' ? (
         <ProductDetail
           loading={detailLoading}
           product={selectedProduct}
           error={error}
-          onBack={() => navigate({ view: 'home' })}
+          onBack={() => navigate({ view: 'products' })}
         />
       ) : (
         <>
-          <HomeSection />
-          <ProductsSection
-            error={error}
-            loading={loading}
-            products={products}
-            onOpenProduct={(productId) => navigate({ view: 'product', productId })}
-          />
+          {route.view === 'home' && <HomeSection onViewProducts={() => navigate({ view: 'products' })} />}
+          {route.view === 'products' && (
+            <ProductsSection
+              error={error}
+              loading={loading}
+              products={products}
+              onOpenProduct={(productId) => navigate({ view: 'product', productId })}
+            />
+          )}
         </>
       )}
     </main>
   );
 }
 
-function SiteHeader({ menu, navigate }) {
+function SiteHeader({ activeView, menu, navigate }) {
   return (
     <header className="site-header">
       <button className="brand reset-button" type="button" onClick={() => navigate({ view: 'home' })}>
@@ -158,15 +160,25 @@ function SiteHeader({ menu, navigate }) {
         <span>RetroBoli</span>
       </button>
       <nav className="main-nav" aria-label="Navegacion principal">
-        <button type="button" onClick={() => navigate({ view: 'home' })}>
+        <button
+          className={activeView === 'home' ? 'active-nav-item' : ''}
+          type="button"
+          onClick={() => navigate({ view: 'home' })}
+        >
           Inicio
         </button>
         <div className="nav-dropdown">
-          <button type="button" onClick={() => document.getElementById('productos')?.scrollIntoView()}>
+          <button
+            className={activeView === 'products' || activeView === 'product' ? 'active-nav-item' : ''}
+            type="button"
+            onClick={() => navigate({ view: 'products' })}
+            aria-haspopup={menu.length > 0 ? 'menu' : undefined}
+            aria-expanded={menu.length > 0 ? 'false' : undefined}
+          >
             Productos
           </button>
           {menu.length > 0 && (
-            <div className="dropdown-panel">
+            <div className="dropdown-panel" role="menu">
               {menu.map((category) => (
                 <div className="menu-group" key={category.label}>
                   <strong>{category.label}</strong>
@@ -196,7 +208,7 @@ function SiteHeader({ menu, navigate }) {
   );
 }
 
-function HomeSection() {
+function HomeSection({ onViewProducts }) {
   return (
     <section id="inicio" className="hero-section">
       <div className="hero-copy">
@@ -206,6 +218,9 @@ function HomeSection() {
           Un escaparate sencillo para encontrar juegos, consolas y piezas retro disponibles, con
           fotos, precio, estado y enlace directo al anuncio de Wallapop.
         </p>
+        <button className="hero-action" type="button" onClick={onViewProducts}>
+          Ver productos
+        </button>
       </div>
     </section>
   );
@@ -681,12 +696,20 @@ function getRouteFromLocation() {
     return { view: 'product', productId: productMatch[1] };
   }
 
+  if (pathname === '/productos') {
+    return { view: 'products' };
+  }
+
   return { view: 'home' };
 }
 
 function nextRouteToPath(route) {
   if (route.view === 'product') {
     return `/productos/${route.productId}`;
+  }
+
+  if (route.view === 'products') {
+    return '/productos';
   }
 
   return '/';

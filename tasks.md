@@ -98,7 +98,9 @@ Validacion:
 
 - `npm.cmd run build`: build del frontend completado correctamente.
 - `Invoke-WebRequest http://localhost:5173/`: frontend responde `200`.
+- `Invoke-WebRequest http://localhost:5173/productos`: vista Productos responde `200`.
 - `Invoke-WebRequest http://localhost:4000/api/products`: API publica responde `200`.
+- Script temporal con MongoDB real: crea un producto activo, valida que `/api/products/menu` incluye plataforma y producto para desplegable, y limpia el dato.
 
 ## Fase 3: Detalle De Producto
 
