@@ -106,6 +106,7 @@ Validacion:
 - `GET /api/products/menu`: ajustado a categoria y plataforma, sin productos finales, para filtrar el catalogo desde el menu.
 - Ajuste visual: productos/destacados pasan a fondos azules suaves y el desplegable mantiene hover continuo entre boton y panel.
 - Ajuste visual: header publico deja solo el logo ampliado y el desplegable incorpora iconos por categoria con estilo mas moderno.
+- Mejora admin: listado de productos agrupado en acordeon plegado por categoria y marca para localizar productos rapidamente.
 
 ## Fase 3: Detalle De Producto
 

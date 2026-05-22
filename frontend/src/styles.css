@@ -545,12 +545,75 @@ button {
   gap: 10px;
 }
 
+.admin-category-group,
+.admin-brand-group,
+.admin-product-list {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-category-group {
+  border: 1px solid #b8d9f2;
+  border-radius: 8px;
+  padding: 10px;
+  background: #dceffc;
+}
+
+.admin-brand-list {
+  display: grid;
+  gap: 8px;
+  padding-left: 12px;
+}
+
+.admin-group-toggle,
+.admin-brand-toggle {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px;
+  color: #153450;
+  text-align: left;
+}
+
+.admin-group-toggle {
+  background: #bfe0f7;
+}
+
+.admin-brand-toggle {
+  background: #eef8ff;
+}
+
+.admin-group-toggle span,
+.admin-brand-toggle span {
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 999px;
+  background: #0f8dea;
+  color: #fff;
+  font-weight: 900;
+}
+
+.admin-group-toggle small,
+.admin-brand-toggle small {
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(15, 141, 234, 0.16);
+  color: #153450;
+  font-weight: 900;
+}
+
 .admin-list-item {
   display: grid;
   gap: 12px;
-  border: 1px solid #e0e7f0;
+  border: 1px solid #c6dff1;
   border-radius: 8px;
   padding: 14px;
+  background: #f6fbff;
 }
 
 .admin-list-item span {

@@ -476,7 +476,10 @@ function AdminLogin({ onLogin }) {
 function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [openCategories, setOpenCategories] = useState({});
+  const [openBrands, setOpenBrands] = useState({});
   const [message, setMessage] = useState('');
+  const groupedProducts = useMemo(() => groupAdminProducts(products), [products]);
 
   async function loadProducts() {
     const body = await apiGet('/api/admin/products');
@@ -497,6 +500,21 @@ function AdminProducts() {
     await loadProducts();
   }
 
+  function toggleCategory(category) {
+    setOpenCategories((current) => ({
+      ...current,
+      [category]: !current[category],
+    }));
+  }
+
+  function toggleBrand(category, brand) {
+    const key = getAdminGroupKey(category, brand);
+    setOpenBrands((current) => ({
+      ...current,
+      [key]: !current[key],
+    }));
+  }
+
   return (
     <div className="admin-grid">
       <section className="admin-panel">
@@ -508,30 +526,70 @@ function AdminProducts() {
         </div>
         {message && <p className="form-message">{message}</p>}
         <div className="admin-list">
-          {products.map((product) => (
-            <article className="admin-list-item" key={product.id}>
-              <div>
-                <strong>{product.title}</strong>
-                <span>
-                  {formatPrice(product.price)} / {product.status}
-                </span>
-              </div>
-              <div className="item-actions">
-                <button type="button" onClick={() => setEditingProduct(product)}>
-                  Editar
-                </button>
-                {product.status === 'activo' && (
-                  <>
-                    <button type="button" onClick={() => closeProduct(product, 'vendido')}>
-                      Vendido
-                    </button>
-                    <button type="button" onClick={() => closeProduct(product, 'retirado')}>
-                      Retirado
-                    </button>
-                  </>
-                )}
-              </div>
-            </article>
+          {groupedProducts.map((categoryGroup) => (
+            <section className="admin-category-group" key={categoryGroup.category}>
+              <button
+                className="admin-group-toggle"
+                type="button"
+                onClick={() => toggleCategory(categoryGroup.category)}
+              >
+                <span>{openCategories[categoryGroup.category] ? '−' : '+'}</span>
+                <strong>{categoryGroup.category}</strong>
+                <small>{categoryGroup.count}</small>
+              </button>
+
+              {openCategories[categoryGroup.category] && (
+                <div className="admin-brand-list">
+                  {categoryGroup.brands.map((brandGroup) => {
+                    const brandKey = getAdminGroupKey(categoryGroup.category, brandGroup.brand);
+
+                    return (
+                      <section className="admin-brand-group" key={brandKey}>
+                        <button
+                          className="admin-brand-toggle"
+                          type="button"
+                          onClick={() => toggleBrand(categoryGroup.category, brandGroup.brand)}
+                        >
+                          <span>{openBrands[brandKey] ? '−' : '+'}</span>
+                          <strong>{brandGroup.brand}</strong>
+                          <small>{brandGroup.products.length}</small>
+                        </button>
+
+                        {openBrands[brandKey] && (
+                          <div className="admin-product-list">
+                            {brandGroup.products.map((product) => (
+                              <article className="admin-list-item" key={product.id}>
+                                <div>
+                                  <strong>{product.title}</strong>
+                                  <span>
+                                    {product.platform} / {formatPrice(product.price)} / {product.status}
+                                  </span>
+                                </div>
+                                <div className="item-actions">
+                                  <button type="button" onClick={() => setEditingProduct(product)}>
+                                    Editar
+                                  </button>
+                                  {product.status === 'activo' && (
+                                    <>
+                                      <button type="button" onClick={() => closeProduct(product, 'vendido')}>
+                                        Vendido
+                                      </button>
+                                      <button type="button" onClick={() => closeProduct(product, 'retirado')}>
+                                        Retirado
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
+                              </article>
+                            ))}
+                          </div>
+                        )}
+                      </section>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
           ))}
         </div>
       </section>
@@ -546,6 +604,47 @@ function AdminProducts() {
       />
     </div>
   );
+}
+
+function groupAdminProducts(products) {
+  const categoryMap = new Map();
+
+  products.forEach((product) => {
+    if (!categoryMap.has(product.category)) {
+      categoryMap.set(product.category, new Map());
+    }
+
+    const brandMap = categoryMap.get(product.category);
+
+    if (!brandMap.has(product.brand)) {
+      brandMap.set(product.brand, []);
+    }
+
+    brandMap.get(product.brand).push(product);
+  });
+
+  return Array.from(categoryMap.entries())
+    .sort(([firstCategory], [secondCategory]) => firstCategory.localeCompare(secondCategory, 'es'))
+    .map(([category, brandMap]) => {
+      const brands = Array.from(brandMap.entries())
+        .sort(([firstBrand], [secondBrand]) => firstBrand.localeCompare(secondBrand, 'es'))
+        .map(([brand, brandProducts]) => ({
+          brand,
+          products: brandProducts.sort((firstProduct, secondProduct) =>
+            firstProduct.title.localeCompare(secondProduct.title, 'es'),
+          ),
+        }));
+
+      return {
+        category,
+        brands,
+        count: brands.reduce((total, brandGroup) => total + brandGroup.products.length, 0),
+      };
+    });
+}
+
+function getAdminGroupKey(category, brand) {
+  return `${category}::${brand}`;
 }
 
 function ProductForm({ product, onSaved }) {
