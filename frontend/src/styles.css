@@ -301,7 +301,7 @@ button {
   min-width: 0;
 }
 
-.product-card-button {
+.product-card-shell {
   display: grid;
   width: 100%;
   height: 100%;
@@ -315,7 +315,20 @@ button {
   text-align: left;
 }
 
-.product-card-button img {
+.product-card-image-frame {
+  position: relative;
+}
+
+.product-card-image-button {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.product-card-image-button img {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
@@ -327,7 +340,12 @@ button {
   flex-direction: column;
   justify-content: space-between;
   gap: 18px;
+  width: 100%;
+  border: 0;
   padding: 18px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
 }
 
 .product-meta {
@@ -394,6 +412,7 @@ button {
 
 .carousel,
 .admin-carousel {
+  position: relative;
   overflow: hidden;
   border: 1px solid #adcfe8;
   border-radius: 8px;
@@ -409,15 +428,22 @@ button {
   background: #e8eef7;
 }
 
-.carousel-controls {
+.carousel-controls,
+.floating-carousel-controls,
+.card-carousel-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.carousel-controls {
   padding: 12px;
 }
 
 .carousel-controls button,
+.floating-carousel-controls button,
+.card-carousel-controls button,
 .primary-button,
 .primary-link {
   border: 0;
@@ -427,6 +453,44 @@ button {
   color: #142235;
   font-weight: 900;
   text-decoration: none;
+}
+
+.floating-carousel-controls,
+.card-carousel-controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  padding: 12px;
+}
+
+.floating-carousel-controls {
+  align-items: center;
+}
+
+.floating-carousel-controls span {
+  align-self: flex-end;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(20, 34, 53, 0.72);
+  color: #fff;
+  font-weight: 900;
+}
+
+.floating-carousel-controls button,
+.card-carousel-controls button {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 999px;
+  padding: 0;
+  background: rgba(255, 222, 71, 0.92);
+  box-shadow: 0 8px 18px rgba(13, 40, 73, 0.22);
+  pointer-events: auto;
+}
+
+.card-carousel-controls {
+  align-items: center;
 }
 
 .detail-copy {

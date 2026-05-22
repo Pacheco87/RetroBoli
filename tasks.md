@@ -107,6 +107,8 @@ Validacion:
 - Ajuste visual: productos/destacados pasan a fondos azules suaves y el desplegable mantiene hover continuo entre boton y panel.
 - Ajuste visual: header publico deja solo el logo ampliado y el desplegable incorpora iconos por categoria con estilo mas moderno.
 - Mejora admin: listado de productos agrupado en acordeon plegado por categoria y marca para localizar productos rapidamente.
+- Mejora imagenes: el formulario admin redimensiona imagenes grandes en cliente antes de subirlas para mantener nitidez y peso razonable.
+- Mejora catalogo: cards de productos y destacados muestran flechas laterales cuando hay varias imagenes.
 
 ## Fase 3: Detalle De Producto
 

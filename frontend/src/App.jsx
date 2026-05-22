@@ -322,33 +322,118 @@ function ProductsSection({
 }
 
 function ProductCard({ product, onOpen }) {
-  const image = product.images?.[0];
+  const [imageIndex, setImageIndex] = useState(0);
+  const images = product.images?.length ? product.images : [{ url: '/logo-retroboli.jpg', alt: product.title }];
+  const image = images[imageIndex] || images[0];
+
+  function showPreviousImage(event) {
+    event.stopPropagation();
+    setImageIndex((imageIndex - 1 + images.length) % images.length);
+  }
+
+  function showNextImage(event) {
+    event.stopPropagation();
+    setImageIndex((imageIndex + 1) % images.length);
+  }
 
   return (
     <article className="product-card">
-      <button className="product-card-button" type="button" onClick={onOpen}>
-        <img src={getAssetUrl(image?.url)} alt={image?.alt || product.title} />
-        <div className="product-card-body">
-          <div>
-            <p className="product-meta">
-              {product.category} / {product.platform}
-            </p>
-            <h3>{product.title}</h3>
-          </div>
+      <div className="product-card-shell">
+        <div className="product-card-image-frame">
+          <button className="product-card-image-button" type="button" onClick={onOpen}>
+            <img src={getAssetUrl(image?.url)} alt={image?.alt || product.title} />
+          </button>
+          {images.length > 1 && (
+            <div className="card-carousel-controls" aria-label={`Fotos de ${product.title}`}>
+              <button type="button" aria-label="Foto anterior" onClick={showPreviousImage}>
+                &lt;
+              </button>
+              <button type="button" aria-label="Foto siguiente" onClick={showNextImage}>
+                &gt;
+              </button>
+            </div>
+          )}
+        </div>
+        <button className="product-card-body" type="button" onClick={onOpen}>
+          <p className="product-meta">
+            {product.category} / {product.platform}
+          </p>
+          <h3>{product.title}</h3>
           <div className="product-card-footer">
             <ConditionBadge condition={product.condition} color={product.conditionColor} />
             <strong>{formatPrice(product.price)}</strong>
           </div>
-        </div>
-      </button>
+        </button>
+      </div>
     </article>
+  );
+}
+
+function ProductImageCarousel({ images, title, imageIndex, setImageIndex }) {
+  const currentImage = images[imageIndex] || images[0];
+
+  return (
+    <div className="carousel">
+      <img src={getAssetUrl(currentImage.url)} alt={currentImage.alt || title} />
+      {images.length > 1 && (
+        <div className="floating-carousel-controls" aria-label={`Fotos de ${title}`}>
+          <button
+            type="button"
+            aria-label="Foto anterior"
+            onClick={() => setImageIndex((imageIndex - 1 + images.length) % images.length)}
+          >
+            &lt;
+          </button>
+          <span>
+            {imageIndex + 1} / {images.length}
+          </span>
+          <button
+            type="button"
+            aria-label="Foto siguiente"
+            onClick={() => setImageIndex((imageIndex + 1) % images.length)}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AdminImageCarousel({ images, title, imageIndex, setImageIndex }) {
+  const currentImage = images[imageIndex] || images[0];
+
+  return (
+    <div className="admin-carousel">
+      <img src={currentImage.url} alt={currentImage.alt || title} />
+      {images.length > 1 && (
+        <div className="floating-carousel-controls" aria-label={`Previsualizacion de ${title || 'producto'}`}>
+          <button
+            type="button"
+            aria-label="Foto anterior"
+            onClick={() => setImageIndex((imageIndex - 1 + images.length) % images.length)}
+          >
+            &lt;
+          </button>
+          <span>
+            {imageIndex + 1} / {images.length}
+          </span>
+          <button
+            type="button"
+            aria-label="Foto siguiente"
+            onClick={() => setImageIndex((imageIndex + 1) % images.length)}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
 function ProductDetail({ loading, product, error, onBack }) {
   const [imageIndex, setImageIndex] = useState(0);
   const images = product?.images?.length ? product.images : [{ url: '/logo-retroboli.jpg', alt: 'RetroBoli' }];
-  const currentImage = images[imageIndex] || images[0];
 
   useEffect(() => {
     setImageIndex(0);
@@ -375,22 +460,7 @@ function ProductDetail({ loading, product, error, onBack }) {
         Volver al catalogo
       </button>
       <div className="detail-layout">
-        <div className="carousel">
-          <img src={getAssetUrl(currentImage.url)} alt={currentImage.alt || product.title} />
-          {images.length > 1 && (
-            <div className="carousel-controls">
-              <button type="button" onClick={() => setImageIndex((imageIndex - 1 + images.length) % images.length)}>
-                Anterior
-              </button>
-              <span>
-                {imageIndex + 1} / {images.length}
-              </span>
-              <button type="button" onClick={() => setImageIndex((imageIndex + 1) % images.length)}>
-                Siguiente
-              </button>
-            </div>
-          )}
-        </div>
+        <ProductImageCarousel images={images} imageIndex={imageIndex} setImageIndex={setImageIndex} title={product.title} />
         <div className="detail-copy">
           <p className="product-meta">
             {product.category} / {product.brand} / {product.platform}
@@ -647,6 +717,48 @@ function getAdminGroupKey(category, brand) {
   return `${category}::${brand}`;
 }
 
+async function optimizeImageFile(file) {
+  const maxSize = 1800;
+  const quality = 0.92;
+
+  if (!file.type.startsWith('image/') || file.type === 'image/svg+xml' || file.type === 'image/gif') {
+    return file;
+  }
+
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+
+    if (scale === 1) {
+      bitmap.close?.();
+      return file;
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+
+    const context = canvas.getContext('2d');
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close?.();
+
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+
+    if (!blob) {
+      return file;
+    }
+
+    return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', {
+      type: 'image/jpeg',
+      lastModified: Date.now(),
+    });
+  } catch (_error) {
+    return file;
+  }
+}
+
 function ProductForm({ product, onSaved }) {
   const [form, setForm] = useState(() => productToForm(product));
   const [previewIndex, setPreviewIndex] = useState(0);
@@ -691,7 +803,8 @@ function ProductForm({ product, onSaved }) {
       }
       payload.append('featured', String(form.featured));
       payload.append('existingImages', JSON.stringify(form.existingImages));
-      form.files.forEach((file) => payload.append('images', file));
+      const optimizedFiles = await Promise.all(form.files.map((file) => optimizeImageFile(file)));
+      optimizedFiles.forEach((file) => payload.append('images', file));
 
       await apiRequest(product ? `/api/admin/products/${product.id}` : '/api/admin/products', {
         method: product ? 'PUT' : 'POST',
@@ -704,8 +817,6 @@ function ProductForm({ product, onSaved }) {
       setError(saveError.message);
     }
   }
-
-  const currentPreview = previews[previewIndex] || previews[0];
 
   return (
     <form className="admin-form" onSubmit={handleSubmit}>
@@ -785,24 +896,8 @@ function ProductForm({ product, onSaved }) {
           onChange={(event) => updateField('files', Array.from(event.target.files))}
         />
       </label>
-      {currentPreview && (
-        <div className="admin-carousel">
-          <img src={currentPreview.url} alt={currentPreview.alt} />
-          <div className="carousel-controls">
-            <button
-              type="button"
-              onClick={() => setPreviewIndex((previewIndex - 1 + previews.length) % previews.length)}
-            >
-              Anterior
-            </button>
-            <span>
-              {previewIndex + 1} / {previews.length}
-            </span>
-            <button type="button" onClick={() => setPreviewIndex((previewIndex + 1) % previews.length)}>
-              Siguiente
-            </button>
-          </div>
-        </div>
+      {previews.length > 0 && (
+        <AdminImageCarousel images={previews} imageIndex={previewIndex} setImageIndex={setPreviewIndex} title={form.title} />
       )}
       {form.existingImages.length > 0 && (
         <div className="image-actions">
