@@ -100,9 +100,10 @@ Validacion:
 - `Invoke-WebRequest http://localhost:5173/`: frontend responde `200`.
 - `Invoke-WebRequest http://localhost:5173/productos`: vista Productos responde `200`.
 - `Invoke-WebRequest http://localhost:4000/api/products`: API publica responde `200`.
-- Script temporal con MongoDB real: crea un producto activo, valida que `/api/products/menu` incluye plataforma y producto para desplegable, y limpia el dato.
+- Script temporal con MongoDB real: crea un producto activo, valida que `/api/products/menu` incluye categoria/plataforma para desplegable, y limpia el dato.
 - `npm.cmd run db:seed --workspace backend`: crea 50 productos de prueba para validar catalogo, menu, detalle y destacados.
 - `GET /api/products/featured`: endpoint publico de destacados usado por la seccion de Inicio.
+- `GET /api/products/menu`: ajustado a categoria y plataforma, sin productos finales, para filtrar el catalogo desde el menu.
 
 ## Fase 3: Detalle De Producto
 

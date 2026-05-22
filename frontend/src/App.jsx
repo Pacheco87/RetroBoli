@@ -57,6 +57,20 @@ function PublicApp({ navigate, route }) {
   const [loading, setLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
   const [error, setError] = useState('');
+  const visibleProducts = useMemo(
+    () =>
+      products.filter((product) => {
+        if (route.view !== 'products' || !route.filter) {
+          return true;
+        }
+
+        return (
+          product.category === route.filter.category &&
+          product.platform === route.filter.platform
+        );
+      }),
+    [products, route],
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -149,10 +163,13 @@ function PublicApp({ navigate, route }) {
           )}
           {route.view === 'products' && (
             <ProductsSection
+              activeFilter={route.filter}
+              allProductsCount={products.length}
               error={error}
               loading={loading}
-              products={products}
+              onClearFilter={() => navigate({ view: 'products' })}
               onOpenProduct={(productId) => navigate({ view: 'product', productId })}
+              products={visibleProducts}
             />
           )}
         </>
@@ -191,22 +208,25 @@ function SiteHeader({ activeView, menu, navigate }) {
               {menu.map((category) => (
                 <div className="menu-group" key={category.label}>
                   <strong>{category.label}</strong>
-                  {category.brands.map((brand) =>
-                    brand.platforms.map((platform) => (
-                      <div className="menu-platform" key={`${brand.label}-${platform.label}`}>
-                        <span>{platform.label}</span>
-                        {platform.products.map((product) => (
-                          <button
-                            type="button"
-                            key={product.id}
-                            onClick={() => navigate({ view: 'product', productId: product.id })}
-                          >
-                            {product.title}
-                          </button>
-                        ))}
-                      </div>
-                    )),
-                  )}
+                  <div className="menu-platform-list">
+                    {getCategoryPlatforms(category).map((platform) => (
+                      <button
+                        type="button"
+                        key={`${category.label}-${platform}`}
+                        onClick={() =>
+                          navigate({
+                            view: 'products',
+                            filter: {
+                              category: category.label,
+                              platform,
+                            },
+                          })
+                        }
+                      >
+                        {platform}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -252,18 +272,41 @@ function HomeSection({ featuredProducts, onOpenProduct, onViewProducts }) {
   );
 }
 
-function ProductsSection({ error, loading, products, onOpenProduct }) {
+function ProductsSection({
+  activeFilter,
+  allProductsCount,
+  error,
+  loading,
+  onClearFilter,
+  products,
+  onOpenProduct,
+}) {
   return (
     <section id="productos" className="products-section" aria-labelledby="products-title">
       <div className="section-heading">
         <p className="eyebrow">Catalogo activo</p>
-        <h2 id="products-title">Productos en venta</h2>
+        <h2 id="products-title">{activeFilter ? activeFilter.platform : 'Productos en venta'}</h2>
+        {activeFilter ? (
+          <div className="filter-summary">
+            <span>
+              {activeFilter.category} / {activeFilter.platform}
+            </span>
+            <button type="button" onClick={onClearFilter}>
+              Ver todo
+            </button>
+          </div>
+        ) : (
+          <p className="section-copy">{allProductsCount} productos activos disponibles.</p>
+        )}
       </div>
 
       {loading && <StateMessage title="Cargando productos" text="Estamos preparando el catalogo." />}
       {error && <StateMessage title="No se pudo cargar" text={error} />}
       {!loading && !error && products.length === 0 && (
-        <StateMessage title="Sin productos activos" text="Pronto apareceran nuevos articulos retro." />
+        <StateMessage
+          title={activeFilter ? 'Sin productos para este filtro' : 'Sin productos activos'}
+          text={activeFilter ? 'Esta plataforma ya no tiene productos activos.' : 'Pronto apareceran nuevos articulos retro.'}
+        />
       )}
 
       <div className="products-grid">
@@ -712,6 +755,7 @@ function productToForm(product) {
 
 function getRouteFromLocation() {
   const { pathname } = window.location;
+  const searchParams = new URLSearchParams(window.location.search);
 
   if (pathname.startsWith(ADMIN_PATH)) {
     return { view: 'admin' };
@@ -723,7 +767,13 @@ function getRouteFromLocation() {
   }
 
   if (pathname === '/productos') {
-    return { view: 'products' };
+    const category = searchParams.get('categoria');
+    const platform = searchParams.get('plataforma');
+
+    return {
+      view: 'products',
+      filter: category && platform ? { category, platform } : null,
+    };
   }
 
   return { view: 'home' };
@@ -735,10 +785,31 @@ function nextRouteToPath(route) {
   }
 
   if (route.view === 'products') {
+    if (route.filter) {
+      const searchParams = new URLSearchParams({
+        categoria: route.filter.category,
+        plataforma: route.filter.platform,
+      });
+
+      return `/productos?${searchParams.toString()}`;
+    }
+
     return '/productos';
   }
 
   return '/';
+}
+
+function getCategoryPlatforms(category) {
+  const platforms = new Set();
+
+  category.brands.forEach((brand) => {
+    brand.platforms.forEach((platform) => {
+      platforms.add(platform.label);
+    });
+  });
+
+  return Array.from(platforms).sort((first, second) => first.localeCompare(second, 'es'));
 }
 
 function formatPrice(price) {

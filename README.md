@@ -120,7 +120,7 @@ El backend expone estos endpoints publicos:
 
 - `GET /api/health`: estado basico de la API.
 - `GET /api/products`: lista productos activos.
-- `GET /api/products/menu`: devuelve la estructura del menu dinamico basada en productos activos.
+- `GET /api/products/menu`: devuelve categorias y plataformas activas para filtrar el catalogo.
 - `GET /api/products/featured`: lista productos destacados activos.
 - `GET /api/products/:productId`: devuelve el detalle de un producto activo.
 

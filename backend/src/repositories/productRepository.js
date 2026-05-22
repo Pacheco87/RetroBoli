@@ -57,7 +57,6 @@ export async function getActiveProductMenu() {
   const products = await Product.find(
     { status: PRODUCT_STATUS.ACTIVE },
     {
-      title: 1,
       category: 1,
       brand: 1,
       platform: 1,
@@ -71,12 +70,7 @@ export async function getActiveProductMenu() {
   for (const product of products) {
     const category = upsertGroup(categories, product.category);
     const brand = upsertGroup(category.brands, product.brand);
-    const platform = upsertGroup(brand.platforms, product.platform);
-
-    platform.products.push({
-      id: product._id.toString(),
-      title: product.title,
-    });
+    upsertGroup(brand.platforms, product.platform);
   }
 
   return Array.from(categories.values()).map((category) => ({
@@ -85,7 +79,6 @@ export async function getActiveProductMenu() {
       label: brand.label,
       platforms: Array.from(brand.platforms.values()).map((platform) => ({
         label: platform.label,
-        products: platform.products,
       })),
     })),
   }));
