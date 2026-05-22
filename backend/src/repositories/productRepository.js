@@ -38,6 +38,21 @@ export async function findActiveProductById(productId) {
   return product ? toPublicProduct(product) : null;
 }
 
+export async function listFeaturedProducts() {
+  const products = await Product.find(
+    {
+      featured: true,
+      status: PRODUCT_STATUS.ACTIVE,
+    },
+    publicProductProjection,
+  )
+    .sort({ updatedAt: -1 })
+    .limit(6)
+    .lean();
+
+  return products.map(toPublicProduct);
+}
+
 export async function getActiveProductMenu() {
   const products = await Product.find(
     { status: PRODUCT_STATUS.ACTIVE },

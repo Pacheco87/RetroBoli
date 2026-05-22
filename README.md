@@ -83,6 +83,12 @@ Levantar solo el backend:
 npm run dev --workspace backend
 ```
 
+Crear 50 productos de prueba:
+
+```bash
+npm run db:seed --workspace backend
+```
+
 Generar build del frontend:
 
 ```bash
@@ -115,6 +121,7 @@ El backend expone estos endpoints publicos:
 - `GET /api/health`: estado basico de la API.
 - `GET /api/products`: lista productos activos.
 - `GET /api/products/menu`: devuelve la estructura del menu dinamico basada en productos activos.
+- `GET /api/products/featured`: lista productos destacados activos.
 - `GET /api/products/:productId`: devuelve el detalle de un producto activo.
 
 Los productos con estado `vendido` o `retirado` no aparecen en la API publica.

@@ -51,6 +51,7 @@ export function App() {
 
 function PublicApp({ navigate, route }) {
   const [products, setProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [menu, setMenu] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,13 +64,15 @@ function PublicApp({ navigate, route }) {
     async function loadProducts() {
       try {
         setLoading(true);
-        const [productsBody, menuBody] = await Promise.all([
+        const [productsBody, featuredBody, menuBody] = await Promise.all([
           apiGet('/api/products'),
+          apiGet('/api/products/featured'),
           apiGet('/api/products/menu'),
         ]);
 
         if (isMounted) {
           setProducts(productsBody.products);
+          setFeaturedProducts(featuredBody.products);
           setMenu(menuBody.menu);
           setError('');
         }
@@ -137,7 +140,13 @@ function PublicApp({ navigate, route }) {
         />
       ) : (
         <>
-          {route.view === 'home' && <HomeSection onViewProducts={() => navigate({ view: 'products' })} />}
+          {route.view === 'home' && (
+            <HomeSection
+              featuredProducts={featuredProducts}
+              onOpenProduct={(productId) => navigate({ view: 'product', productId })}
+              onViewProducts={() => navigate({ view: 'products' })}
+            />
+          )}
           {route.view === 'products' && (
             <ProductsSection
               error={error}
@@ -208,21 +217,38 @@ function SiteHeader({ activeView, menu, navigate }) {
   );
 }
 
-function HomeSection({ onViewProducts }) {
+function HomeSection({ featuredProducts, onOpenProduct, onViewProducts }) {
   return (
-    <section id="inicio" className="hero-section">
-      <div className="hero-copy">
-        <p className="eyebrow">Retro de segunda mano</p>
-        <h1>RetroBoli</h1>
-        <p>
-          Un escaparate sencillo para encontrar juegos, consolas y piezas retro disponibles, con
-          fotos, precio, estado y enlace directo al anuncio de Wallapop.
-        </p>
-        <button className="hero-action" type="button" onClick={onViewProducts}>
-          Ver productos
-        </button>
-      </div>
-    </section>
+    <>
+      <section id="inicio" className="hero-section">
+        <div className="hero-copy">
+          <p className="eyebrow">Retro de segunda mano</p>
+          <h1>RetroBoli</h1>
+          <p>
+            Un escaparate sencillo para encontrar juegos, consolas y piezas retro disponibles, con
+            fotos, precio, estado y enlace directo al anuncio de Wallapop.
+          </p>
+          <button className="hero-action" type="button" onClick={onViewProducts}>
+            Ver productos
+          </button>
+        </div>
+      </section>
+      <section className="featured-section" aria-labelledby="featured-title">
+        <div className="section-heading">
+          <p className="eyebrow">Seleccion RetroBoli</p>
+          <h2 id="featured-title">Productos destacados</h2>
+        </div>
+        {featuredProducts.length === 0 ? (
+          <StateMessage title="Sin destacados" text="Cuando marques productos como destacados apareceran aqui." />
+        ) : (
+          <div className="products-grid featured-grid">
+            {featuredProducts.map((product) => (
+              <ProductCard product={product} key={product.id} onOpen={() => onOpenProduct(product.id)} />
+            ))}
+          </div>
+        )}
+      </section>
+    </>
   );
 }
 

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "admin:hash": "node src/scripts/hashPassword.js",
+    "db:seed": "node src/scripts/seedProducts.js",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },

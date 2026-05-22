@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import {
   findActiveProductById,
   getActiveProductMenu,
+  listFeaturedProducts,
   listActiveProducts,
 } from '../repositories/productRepository.js';
 
@@ -22,6 +23,15 @@ publicProductsRouter.get('/menu', async (_req, res, next) => {
   try {
     const menu = await getActiveProductMenu();
     res.json({ menu });
+  } catch (error) {
+    next(error);
+  }
+});
+
+publicProductsRouter.get('/featured', async (_req, res, next) => {
+  try {
+    const products = await listFeaturedProducts();
+    res.json({ products });
   } catch (error) {
     next(error);
   }
