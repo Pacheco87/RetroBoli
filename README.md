@@ -91,6 +91,17 @@ La primera version espera:
 - `ADMIN_PASSWORD_HASH`
 - `SESSION_TOKEN_SECRET`
 
+## API publica inicial
+
+El backend expone estos endpoints publicos:
+
+- `GET /api/health`: estado basico de la API.
+- `GET /api/products`: lista productos activos.
+- `GET /api/products/menu`: devuelve la estructura del menu dinamico basada en productos activos.
+- `GET /api/products/:productId`: devuelve el detalle de un producto activo.
+
+Los productos con estado `vendido` o `retirado` no aparecen en la API publica.
+
 ## Alcance inicial
 
 - Pagina de inicio explicativa.

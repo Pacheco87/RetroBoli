@@ -45,20 +45,31 @@ Objetivo: definir como se almacenan y consultan los productos.
 
 Tareas:
 
-- Crear modelo `Product`.
-- Definir estados comerciales: activo, vendido y retirado.
-- Definir condiciones del producto y mapeo de colores.
-- Crear API publica para listar productos activos.
-- Crear API publica para consultar detalle de producto.
-- Crear API publica para obtener datos del menu dinamico.
-- Validar que productos vendidos o retirados no aparecen en endpoints publicos.
+- [x] Crear modelo `Product`.
+- [x] Definir estados comerciales: activo, vendido y retirado.
+- [x] Definir condiciones del producto y mapeo de colores.
+- [x] Crear API publica para listar productos activos.
+- [x] Crear API publica para consultar detalle de producto.
+- [x] Crear API publica para obtener datos del menu dinamico.
+- [x] Validar que productos vendidos o retirados no aparecen en endpoints publicos.
 
 Criterios de cierre:
 
-- El backend devuelve productos activos.
-- El backend devuelve detalle de producto.
-- El backend genera datos suficientes para el menu dinamico.
-- Los estados vendido y retirado quedan excluidos de la parte publica.
+- [x] El backend devuelve productos activos.
+- [x] El backend devuelve detalle de producto.
+- [x] El backend genera datos suficientes para el menu dinamico.
+- [x] Los estados vendido y retirado quedan excluidos de la parte publica.
+
+Validacion:
+
+- `node -e "import('./backend/src/models/Product.js').then(...)"`: modelo `Product` importado correctamente.
+- `node -e "import('./backend/src/app.js').then(...)"`: la app Express se instancia con las rutas publicas.
+- Script temporal con MongoDB real y endpoints HTTP: crea productos activo, vendido y retirado; verifica que listado, detalle y menu solo exponen el activo; valida `id` y `conditionColor`; borra los datos temporales.
+- `npm.cmd run build`: build del frontend completado correctamente.
+
+Nota:
+
+- Los endpoints publicos quedan preparados para MongoDB real; la validacion de datos reales se ampliara cuando existan semillas o panel admin.
 
 ## Fase 2: Frontend Publico
 

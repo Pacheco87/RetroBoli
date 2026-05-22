@@ -1,6 +1,9 @@
 import cors from 'cors';
 import express from 'express';
 
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import { publicProductsRouter } from './routes/publicProducts.js';
+
 export function createApp(config = {}) {
   const app = express();
   const frontendOrigin = config.frontendOrigin ?? process.env.FRONTEND_ORIGIN;
@@ -18,6 +21,11 @@ export function createApp(config = {}) {
       service: 'retroboli-api',
     });
   });
+
+  app.use('/api/products', publicProductsRouter);
+
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   return app;
 }
