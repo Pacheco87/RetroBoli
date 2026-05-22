@@ -109,6 +109,7 @@ Validacion:
 - Mejora admin: listado de productos agrupado en acordeon plegado por categoria y marca para localizar productos rapidamente.
 - Mejora imagenes: el formulario admin redimensiona imagenes grandes en cliente antes de subirlas para mantener nitidez y peso razonable.
 - Mejora catalogo: cards de productos y destacados muestran flechas laterales cuando hay varias imagenes.
+- Mejora filtros: la miga de categoria/plataforma permite clicar la categoria para ver todos sus productos.
 
 ## Fase 3: Detalle De Producto
 

@@ -266,11 +266,30 @@ button {
   margin-top: 14px;
 }
 
-.filter-summary span {
+.filter-crumb,
+.filter-current {
   border-radius: 999px;
   padding: 8px 12px;
   background: #c7e2f6;
   color: #153450;
+  font-weight: 900;
+}
+
+.filter-crumb {
+  border: 1px solid #9cc8e7;
+  cursor: pointer;
+}
+
+.filter-crumb:hover {
+  background: #ffde47;
+}
+
+.filter-current {
+  display: inline-flex;
+}
+
+.filter-separator {
+  color: #52708a;
   font-weight: 900;
 }
 

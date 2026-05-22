@@ -67,7 +67,7 @@ function PublicApp({ navigate, route }) {
 
         return (
           product.category === route.filter.category &&
-          product.platform === route.filter.platform
+          (!route.filter.platform || product.platform === route.filter.platform)
         );
       }),
     [products, route],
@@ -169,6 +169,12 @@ function PublicApp({ navigate, route }) {
               error={error}
               loading={loading}
               onClearFilter={() => navigate({ view: 'products' })}
+              onFilterCategory={(category) =>
+                navigate({
+                  view: 'products',
+                  filter: { category },
+                })
+              }
               onOpenProduct={(productId) => navigate({ view: 'product', productId })}
               products={visibleProducts}
             />
@@ -281,19 +287,32 @@ function ProductsSection({
   error,
   loading,
   onClearFilter,
+  onFilterCategory,
   products,
   onOpenProduct,
 }) {
+  const title = activeFilter?.platform || activeFilter?.category || 'Productos en venta';
+
   return (
     <section id="productos" className="products-section" aria-labelledby="products-title">
       <div className="section-heading">
         <p className="eyebrow">Catalogo activo</p>
-        <h2 id="products-title">{activeFilter ? activeFilter.platform : 'Productos en venta'}</h2>
+        <h2 id="products-title">{title}</h2>
         {activeFilter ? (
           <div className="filter-summary">
-            <span>
-              {activeFilter.category} / {activeFilter.platform}
-            </span>
+            <button
+              className="filter-crumb"
+              type="button"
+              onClick={() => onFilterCategory(activeFilter.category)}
+            >
+              {activeFilter.category}
+            </button>
+            {activeFilter.platform && (
+              <>
+                <span className="filter-separator">/</span>
+                <span className="filter-current">{activeFilter.platform}</span>
+              </>
+            )}
             <button type="button" onClick={onClearFilter}>
               Ver todo
             </button>
@@ -969,7 +988,7 @@ function getRouteFromLocation() {
 
     return {
       view: 'products',
-      filter: category && platform ? { category, platform } : null,
+      filter: category ? { category, platform: platform || null } : null,
     };
   }
 
@@ -985,8 +1004,11 @@ function nextRouteToPath(route) {
     if (route.filter) {
       const searchParams = new URLSearchParams({
         categoria: route.filter.category,
-        plataforma: route.filter.platform,
       });
+
+      if (route.filter.platform) {
+        searchParams.set('plataforma', route.filter.platform);
+      }
 
       return `/productos?${searchParams.toString()}`;
     }
