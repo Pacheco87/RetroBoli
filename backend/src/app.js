@@ -1,7 +1,10 @@
 import cors from 'cors';
 import express from 'express';
 
+import { uploadsDir } from './config/paths.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import { adminAuthRouter } from './routes/adminAuth.js';
+import { adminProductsRouter } from './routes/adminProducts.js';
 import { publicProductsRouter } from './routes/publicProducts.js';
 
 export function createApp(config = {}) {
@@ -14,6 +17,7 @@ export function createApp(config = {}) {
     }),
   );
   app.use(express.json());
+  app.use('/uploads', express.static(uploadsDir));
 
   app.get('/api/health', (_req, res) => {
     res.json({
@@ -23,6 +27,8 @@ export function createApp(config = {}) {
   });
 
   app.use('/api/products', publicProductsRouter);
+  app.use('/api/admin/auth', adminAuthRouter);
+  app.use('/api/admin/products', adminProductsRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

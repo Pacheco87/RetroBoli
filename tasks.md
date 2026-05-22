@@ -77,22 +77,28 @@ Objetivo: construir la parte visible para cualquier visitante.
 
 Tareas:
 
-- Crear layout publico.
-- Integrar logo de RetroBoli.
-- Crear pagina de Inicio.
-- Crear pagina de Productos.
-- Crear cards de producto.
-- Mostrar precio obligatorio.
-- Mostrar condicion con color.
-- Crear menu dinamico simple.
-- Aplicar responsive basico.
+- [x] Crear layout publico.
+- [x] Integrar logo de RetroBoli.
+- [x] Crear pagina de Inicio.
+- [x] Crear pagina de Productos.
+- [x] Crear cards de producto.
+- [x] Mostrar precio obligatorio.
+- [x] Mostrar condicion con color.
+- [x] Crear menu dinamico simple.
+- [x] Aplicar responsive basico.
 
 Criterios de cierre:
 
-- Un visitante entiende que es RetroBoli.
-- La vista general muestra productos activos.
-- El menu solo muestra secciones con productos activos.
-- La interfaz funciona en escritorio y movil.
+- [x] Un visitante entiende que es RetroBoli.
+- [x] La vista general muestra productos activos.
+- [x] El menu solo muestra secciones con productos activos.
+- [x] La interfaz funciona en escritorio y movil.
+
+Validacion:
+
+- `npm.cmd run build`: build del frontend completado correctamente.
+- `Invoke-WebRequest http://localhost:5173/`: frontend responde `200`.
+- `Invoke-WebRequest http://localhost:4000/api/products`: API publica responde `200`.
 
 ## Fase 3: Detalle De Producto
 
@@ -100,21 +106,26 @@ Objetivo: permitir consultar cada producto con toda la informacion util.
 
 Tareas:
 
-- Crear ruta de detalle de producto.
-- Crear carrusel de imagenes.
-- Mostrar descripcion completa.
-- Mostrar precio.
-- Mostrar categoria, marca y plataforma.
-- Mostrar condicion con color.
-- Mostrar enlace a Wallapop.
-- Gestionar producto no encontrado.
+- [x] Crear ruta de detalle de producto.
+- [x] Crear carrusel de imagenes.
+- [x] Mostrar descripcion completa.
+- [x] Mostrar precio.
+- [x] Mostrar categoria, marca y plataforma.
+- [x] Mostrar condicion con color.
+- [x] Mostrar enlace a Wallapop.
+- [x] Gestionar producto no encontrado.
 
 Criterios de cierre:
 
-- El usuario puede abrir un producto desde el listado.
-- El detalle muestra toda la informacion requerida.
-- El enlace a Wallapop es visible y clicable.
-- Los productos no activos no son accesibles como producto publico disponible.
+- [x] El usuario puede abrir un producto desde el listado.
+- [x] El detalle muestra toda la informacion requerida.
+- [x] El enlace a Wallapop es visible y clicable.
+- [x] Los productos no activos no son accesibles como producto publico disponible.
+
+Validacion:
+
+- Script temporal con MongoDB real y endpoints HTTP: crea producto activo, verifica detalle publico y valida que tras cierre el detalle devuelve `404`.
+- `npm.cmd run build`: build del frontend completado correctamente.
 
 ## Fase 4: Seguridad Y Acceso Admin
 
@@ -122,20 +133,27 @@ Objetivo: proteger la administracion sin crear un sistema complejo de usuarios.
 
 Tareas:
 
-- Definir URL privada de administracion.
-- Crear login de administrador.
-- Configurar password hasheada.
-- Generar token de sesion.
-- Crear middleware de proteccion backend.
-- Proteger rutas admin.
-- Guardar secretos en variables de entorno.
+- [x] Definir URL privada de administracion.
+- [x] Crear login de administrador.
+- [x] Configurar password hasheada.
+- [x] Generar token de sesion.
+- [x] Crear middleware de proteccion backend.
+- [x] Proteger rutas admin.
+- [x] Guardar secretos en variables de entorno.
 
 Criterios de cierre:
 
-- La administracion no es accesible sin autenticacion.
-- El login valido genera una sesion.
-- Las rutas admin rechazan peticiones no autenticadas.
-- Las credenciales y secretos no quedan escritos en codigo fuente.
+- [x] La administracion no es accesible sin autenticacion.
+- [x] El login valido genera una sesion.
+- [x] Las rutas admin rechazan peticiones no autenticadas.
+- [x] Las credenciales y secretos no quedan escritos en codigo fuente.
+
+Validacion:
+
+- `npm.cmd run admin:hash --workspace backend -- "RetroBoliAdmin2026!"`: genera hash bcrypt de desarrollo.
+- Script temporal con API HTTP: login admin devuelve token valido.
+- `Invoke-WebRequest http://localhost:4000/api/admin/products` sin token: rutas admin responden `401`.
+- `Invoke-WebRequest http://localhost:5173/retroboli-admin`: ruta admin frontend responde `200`.
 
 ## Fase 5: Administracion De Productos
 
@@ -143,25 +161,30 @@ Objetivo: permitir crear, editar y cerrar productos.
 
 Tareas:
 
-- Crear layout admin.
-- Crear listado admin de productos.
-- Crear formulario de alta de producto.
-- Crear formulario de edicion de producto.
-- Integrar subida de fotos en crear producto.
-- Integrar subida y gestion de fotos en editar producto.
-- Previsualizar fotos en carrusel dentro del formulario.
-- Guardar URL de Wallapop.
-- Marcar producto como vendido.
-- Marcar producto como retirado.
-- Guardar fecha y motivo de cierre.
+- [x] Crear layout admin.
+- [x] Crear listado admin de productos.
+- [x] Crear formulario de alta de producto.
+- [x] Crear formulario de edicion de producto.
+- [x] Integrar subida de fotos en crear producto.
+- [x] Integrar subida y gestion de fotos en editar producto.
+- [x] Previsualizar fotos en carrusel dentro del formulario.
+- [x] Guardar URL de Wallapop.
+- [x] Marcar producto como vendido.
+- [x] Marcar producto como retirado.
+- [x] Guardar fecha y motivo de cierre.
 
 Criterios de cierre:
 
-- El administrador puede crear productos completos.
-- El administrador puede editar productos existentes.
-- El administrador puede subir y previsualizar fotos en crear y editar.
-- El administrador puede cerrar productos como vendidos o retirados.
-- Los productos cerrados desaparecen del catalogo publico y del menu.
+- [x] El administrador puede crear productos completos.
+- [x] El administrador puede editar productos existentes.
+- [x] El administrador puede subir y previsualizar fotos en crear y editar.
+- [x] El administrador puede cerrar productos como vendidos o retirados.
+- [x] Los productos cerrados desaparecen del catalogo publico y del menu.
+
+Validacion:
+
+- Script temporal con API HTTP y MongoDB real: login, alta multipart con imagen, detalle publico, edicion, cierre como vendido, desaparicion de detalle y menu publico; elimina datos e imagen temporal.
+- Script temporal adicional: cierre como retirado y verificacion de ocultacion publica.
 
 ## Fase 6: Pulido Visual Y Experiencia
 
@@ -169,21 +192,30 @@ Objetivo: dejar la web coherente, moderna y agradable.
 
 Tareas:
 
-- Ajustar tema visual acorde al logo.
-- Revisar paleta, tipografia y espaciados.
-- Mejorar estados de carga.
-- Mejorar mensajes de error.
-- Crear empty state para catalogo sin productos.
-- Crear empty state para producto no encontrado.
-- Revisar formularios admin.
-- Revisar experiencia movil.
+- [x] Ajustar tema visual acorde al logo.
+- [x] Revisar paleta, tipografia y espaciados.
+- [x] Mejorar estados de carga.
+- [x] Mejorar mensajes de error.
+- [x] Crear empty state para catalogo sin productos.
+- [x] Crear empty state para producto no encontrado.
+- [x] Revisar formularios admin.
+- [x] Revisar experiencia movil.
 
 Criterios de cierre:
 
-- La web se percibe moderna, clara y no recargada.
-- Los estados vacios y errores son comprensibles.
-- No hay solapes visuales en vistas principales.
-- La experiencia movil es usable.
+- [x] La web se percibe moderna, clara y no recargada.
+- [x] Los estados vacios y errores son comprensibles.
+- [x] No hay solapes visuales en vistas principales.
+- [x] La experiencia movil es usable.
+
+Validacion:
+
+- `npm.cmd run build`: CSS y frontend compilan correctamente.
+- Revision estatica de estructura responsive con grid a una columna bajo `860px`.
+
+Nota:
+
+- No se pudo usar navegador integrado/Playwright en este entorno porque la herramienta Browser no estaba disponible y Playwright no esta instalado.
 
 ## Fase 7: Validacion Y Cierre De Primera Version
 
@@ -191,26 +223,39 @@ Objetivo: comprobar que todo funciona de punta a punta.
 
 Tareas:
 
-- Probar crear producto.
-- Probar editar producto.
-- Probar subida y previsualizacion de imagenes.
-- Probar listado publico.
-- Probar detalle publico.
-- Probar apertura del enlace a Wallapop.
-- Probar cierre como vendido.
-- Probar cierre como retirado.
-- Verificar desaparicion de productos cerrados del catalogo.
-- Verificar desaparicion de secciones sin productos activos del menu.
-- Ejecutar build.
-- Ejecutar lint o typecheck si existen.
-- Actualizar README con comandos finales.
+- [x] Probar crear producto.
+- [x] Probar editar producto.
+- [x] Probar subida y previsualizacion de imagenes.
+- [x] Probar listado publico.
+- [x] Probar detalle publico.
+- [x] Probar apertura del enlace a Wallapop.
+- [x] Probar cierre como vendido.
+- [x] Probar cierre como retirado.
+- [x] Verificar desaparicion de productos cerrados del catalogo.
+- [x] Verificar desaparicion de secciones sin productos activos del menu.
+- [x] Ejecutar build.
+- [x] Ejecutar lint o typecheck si existen.
+- [x] Actualizar README con comandos finales.
 
 Criterios de cierre:
 
-- El flujo publico funciona de punta a punta.
-- El flujo admin funciona de punta a punta.
-- La validacion disponible queda documentada.
-- La primera version queda lista para uso local o despliegue inicial.
+- [x] El flujo publico funciona de punta a punta.
+- [x] El flujo admin funciona de punta a punta.
+- [x] La validacion disponible queda documentada.
+- [x] La primera version queda lista para uso local o despliegue inicial.
+
+Validacion:
+
+- `npm.cmd run build`: build del frontend completado correctamente.
+- Script temporal de flujo final: login, crear producto con imagen, confirmar visibilidad publica, cerrar producto, confirmar ocultacion publica y limpiar datos temporales.
+- Script temporal adicional: cierre como retirado y detalle publico `404`.
+- `Invoke-WebRequest http://localhost:5173/`: frontend responde `200`.
+- `Invoke-WebRequest http://localhost:5173/retroboli-admin`: admin frontend responde `200`.
+- `Invoke-WebRequest http://localhost:4000/api/products`: API publica responde `200`.
+
+Nota:
+
+- No hay scripts de lint o typecheck definidos todavia; queda como mejora posterior si el proyecto crece.
 
 ## Fase Posterior: Historico De Productos
 

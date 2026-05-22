@@ -15,6 +15,8 @@ export function toPublicProduct(product) {
     images: product.images,
     wallapopUrl: product.wallapopUrl,
     featured: product.featured,
+    closedAt: product.closedAt,
+    closeReason: product.closeReason,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
   };

@@ -76,6 +76,45 @@ export async function getActiveProductMenu() {
   }));
 }
 
+export async function listAdminProducts() {
+  const products = await Product.find({})
+    .sort({ status: 1, updatedAt: -1 })
+    .lean();
+
+  return products.map(toPublicProduct);
+}
+
+export async function createProduct(payload) {
+  const product = await Product.create(payload);
+  return toPublicProduct(product);
+}
+
+export async function updateProduct(productId, payload) {
+  const product = await Product.findByIdAndUpdate(productId, payload, {
+    returnDocument: 'after',
+    runValidators: true,
+  });
+
+  return product ? toPublicProduct(product) : null;
+}
+
+export async function closeProduct(productId, status) {
+  const product = await Product.findByIdAndUpdate(
+    productId,
+    {
+      status,
+      closeReason: status,
+      closedAt: new Date(),
+    },
+    {
+      returnDocument: 'after',
+      runValidators: true,
+    },
+  );
+
+  return product ? toPublicProduct(product) : null;
+}
+
 function upsertGroup(map, label) {
   if (!map.has(label)) {
     map.set(label, {

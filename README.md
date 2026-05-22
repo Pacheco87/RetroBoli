@@ -54,6 +54,23 @@ npm run dev
 
 El backend lee el archivo `.env` desde la raiz del repositorio, aunque se ejecute desde el workspace `backend`.
 
+La administracion local esta disponible en:
+
+```text
+http://localhost:5173/retroboli-admin
+```
+
+Credenciales de desarrollo incluidas en `.env.development.example`:
+
+- Usuario: `admin`
+- Contrasena: `RetroBoliAdmin2026!`
+
+Para generar otro hash de contrasena:
+
+```bash
+npm run admin:hash --workspace backend -- "tu-password"
+```
+
 Levantar solo el frontend:
 
 ```bash
@@ -101,6 +118,19 @@ El backend expone estos endpoints publicos:
 - `GET /api/products/:productId`: devuelve el detalle de un producto activo.
 
 Los productos con estado `vendido` o `retirado` no aparecen en la API publica.
+
+## API admin inicial
+
+Los endpoints admin requieren token Bearer salvo el login:
+
+- `POST /api/admin/auth/login`: inicia sesion admin.
+- `GET /api/admin/auth/me`: valida la sesion admin.
+- `GET /api/admin/products`: lista todos los productos para administracion.
+- `POST /api/admin/products`: crea producto con formulario multipart.
+- `PUT /api/admin/products/:productId`: edita producto con formulario multipart.
+- `PATCH /api/admin/products/:productId/close`: marca producto como `vendido` o `retirado`.
+
+Las imagenes subidas se guardan localmente en `backend/uploads` y se sirven desde `/uploads`.
 
 ## Alcance inicial
 
