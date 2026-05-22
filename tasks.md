@@ -15,6 +15,7 @@ Tareas:
 - [x] Configurar backend con Node.js y Express.
 - [x] Preparar conexion a MongoDB.
 - [x] Definir variables de entorno iniciales.
+- [x] Preparar Docker Compose para MongoDB local.
 - [x] Crear scripts de desarrollo.
 - [x] Documentar comandos basicos en README.
 
@@ -30,10 +31,12 @@ Validacion:
 - `npm.cmd install`: dependencias instaladas y lockfile generado.
 - `npm.cmd run build`: build del frontend completado correctamente.
 - `node -e "import('./backend/src/app.js').then(...)"`: la app Express se instancia correctamente.
+- `docker-compose.yml`: define MongoDB local con volumen persistente y healthcheck.
 
 Nota:
 
-- El arranque completo del backend con `backend/src/server.js` requiere una instancia MongoDB disponible mediante `MONGODB_URI`.
+- El arranque completo del backend con `backend/src/server.js` requiere levantar MongoDB con `npm run mongo:up` y crear `.env` desde `.env.development.example`.
+- `docker compose config` no se pudo ejecutar en este entorno porque Docker no esta disponible en PATH.
 
 ## Fase 1: Modelo De Producto Y API Base
 

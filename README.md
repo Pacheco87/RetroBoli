@@ -18,7 +18,7 @@ Proyecto en fase de definicion inicial siguiendo un enfoque SDD Standard. Actual
 
 - Node.js 24 o superior.
 - npm.
-- MongoDB local o una URI compatible.
+- Docker Desktop para levantar MongoDB en local con Docker Compose.
 
 ## Comandos iniciales
 
@@ -26,6 +26,24 @@ Instalar dependencias:
 
 ```bash
 npm install
+```
+
+Crear el archivo de entorno local:
+
+```bash
+cp .env.development.example .env
+```
+
+En PowerShell tambien puedes usar:
+
+```powershell
+Copy-Item .env.development.example .env
+```
+
+Levantar MongoDB en Docker:
+
+```bash
+npm run mongo:up
 ```
 
 Levantar frontend y backend en desarrollo:
@@ -52,9 +70,17 @@ Generar build del frontend:
 npm run build
 ```
 
+Parar MongoDB:
+
+```bash
+npm run mongo:down
+```
+
 ## Variables de entorno
 
-Usa `.env.example` como referencia para crear un `.env` local. La primera version espera:
+Usa `.env.development.example` como referencia para crear un `.env` local de desarrollo. `.env.example` mantiene los mismos valores base como plantilla general.
+
+La primera version espera:
 
 - `PORT`
 - `MONGODB_URI`
