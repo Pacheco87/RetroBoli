@@ -111,6 +111,7 @@ Validacion:
 - Mejora catalogo: cards de productos y destacados muestran flechas laterales cuando hay varias imagenes.
 - Mejora filtros: la miga de categoria/plataforma permite clicar la categoria para ver todos sus productos.
 - Mejora admin: formulario crear/editar se organiza en secciones visuales y condiciones/estados se muestran con primera letra mayuscula.
+- Mejora desarrollo externo: el frontend usa API relativa y Vite proxya `/api` y `/uploads` al backend local para que Dev Tunnels del puerto `5173` muestre productos e imagenes.
 
 ## Fase 3: Detalle De Producto
 

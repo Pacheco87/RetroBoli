@@ -53,6 +53,8 @@ npm run dev
 ```
 
 El backend lee el archivo `.env` desde la raiz del repositorio, aunque se ejecute desde el workspace `backend`.
+El frontend usa rutas relativas (`/api` y `/uploads`) y Vite las redirige al backend local en `http://localhost:4000`.
+Esto permite compartir el puerto `5173` con Dev Tunnels/Ports sin exponer otro tunel para la API.
 
 La administracion local esta disponible en:
 
@@ -76,6 +78,8 @@ Levantar solo el frontend:
 ```bash
 npm run dev --workspace frontend
 ```
+
+Si cambias la configuracion de Vite o acabas de actualizar el proxy local, reinicia este proceso para que lea `frontend/vite.config.mjs`.
 
 Levantar solo el backend:
 
