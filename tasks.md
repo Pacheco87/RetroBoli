@@ -270,6 +270,36 @@ Nota:
 
 - No hay scripts de lint o typecheck definidos todavia; queda como mejora posterior si el proyecto crece.
 
+## Fase 8: Preparacion De Despliegue Beta
+
+Objetivo: publicar RetroBoli en una URL accesible para testers no tecnicos.
+
+Tareas:
+
+- [x] Preparar Express para servir el frontend compilado en produccion.
+- [x] Mantener `/api` y `/uploads` en la misma URL publica del backend.
+- [x] Documentar configuracion de Render.
+- [x] Documentar variables de entorno de produccion.
+- [ ] Configurar Web Service en Render.
+- [ ] Configurar variables de entorno reales en Render.
+- [ ] Validar despliegue publico contra MongoDB Atlas.
+
+Criterios de cierre:
+
+- [ ] La URL publica de Render carga la pagina.
+- [ ] El catalogo publico lee productos desde MongoDB Atlas.
+- [ ] La administracion permite crear y editar productos en produccion.
+- [ ] Los testers pueden acceder sin cuenta de GitHub.
+
+Validacion:
+
+- `npm.cmd run build`: build del frontend completado correctamente.
+- Servidor Express temporal con `NODE_ENV=production`: `/`, `/productos`, `/api/health` y fallback SPA responden correctamente.
+
+Nota:
+
+- Para la beta se mantiene almacenamiento local de imagenes en Render, con riesgo aceptado de perdida al reiniciar/redeplegar en plan gratuito. La mejora recomendada posterior es mover imagenes a Cloudinary o almacenamiento persistente.
+
 ## Fase Posterior: Historico De Productos
 
 Objetivo: ampliar la administracion con consulta historica de productos vendidos o retirados.

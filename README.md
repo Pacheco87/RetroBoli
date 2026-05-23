@@ -143,6 +143,34 @@ Los endpoints admin requieren token Bearer salvo el login:
 
 Las imagenes subidas se guardan localmente en `backend/uploads` y se sirven desde `/uploads`.
 
+## Despliegue En Render
+
+Para publicar una beta accesible sin GitHub, usa un Web Service de Render conectado al repositorio.
+
+Configuracion recomendada:
+
+```text
+Runtime: Node
+Branch: main
+Build Command: npm install && npm run build
+Start Command: npm start
+```
+
+Variables de entorno necesarias en Render:
+
+```text
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://usuario:password@cluster.mongodb.net/retroboli?retryWrites=true&w=majority
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD_HASH=hash_bcrypt_de_la_password
+SESSION_TOKEN_SECRET=clave_larga_aleatoria
+FRONTEND_ORIGIN=https://tu-servicio.onrender.com
+```
+
+En produccion Express sirve la API (`/api`), las imagenes (`/uploads`) y el frontend compilado desde `frontend/dist` en la misma URL publica.
+
+Nota: en el plan gratuito de Render el almacenamiento local no es persistente. Las imagenes subidas a `backend/uploads` pueden perderse al redeplegar o reiniciar el servicio. Para una beta puede ser suficiente, pero para uso real conviene mover imagenes a Cloudinary o configurar almacenamiento persistente.
+
 ## Alcance inicial
 
 - Pagina de inicio explicativa.
