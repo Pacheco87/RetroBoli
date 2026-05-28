@@ -488,6 +488,13 @@ function ProductDetail({ loading, product, error, onBack }) {
           <strong className="detail-price">{formatPrice(product.price)}</strong>
           <ConditionBadge condition={product.condition} color={product.conditionColor} />
           <p>{product.description}</p>
+          <div className="wallapop-help-note">
+            <strong>¿Necesitas más información?</strong>
+            <span>
+              Puedes preguntarnos por Wallapop sobre el estado, funcionamiento, compatibilidad o fotos adicionales del
+              producto.
+            </span>
+          </div>
           <a className="primary-link" href={product.wallapopUrl} target="_blank" rel="noreferrer">
             Comprar en Wallapop
           </a>

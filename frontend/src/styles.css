@@ -523,6 +523,26 @@ button {
   line-height: 1.7;
 }
 
+.wallapop-help-note {
+  display: grid;
+  gap: 6px;
+  border: 1px solid #9cc8e7;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #eef8ff;
+  color: #153450;
+}
+
+.wallapop-help-note strong {
+  font-size: 0.92rem;
+}
+
+.wallapop-help-note span {
+  color: #52647a;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
 .detail-price {
   font-size: 2rem;
 }

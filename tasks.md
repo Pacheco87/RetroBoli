@@ -126,6 +126,7 @@ Tareas:
 - [x] Mostrar categoria, marca y plataforma.
 - [x] Mostrar condicion con color.
 - [x] Mostrar enlace a Wallapop.
+- [x] Mostrar aviso para pedir mas informacion por Wallapop.
 - [x] Gestionar producto no encontrado.
 
 Criterios de cierre:
@@ -133,6 +134,7 @@ Criterios de cierre:
 - [x] El usuario puede abrir un producto desde el listado.
 - [x] El detalle muestra toda la informacion requerida.
 - [x] El enlace a Wallapop es visible y clicable.
+- [x] El detalle informa que las dudas se gestionan por Wallapop.
 - [x] Los productos no activos no son accesibles como producto publico disponible.
 
 Validacion:
